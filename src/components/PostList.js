@@ -6,13 +6,36 @@ const PostList = (props) => {
 
     useEffect(() => {
         props.fetchPosts();
-    }, [])
+        console.log(props.posts);
+    },[])
+
+
+    const renderList = () => {
+        return props.posts.map(post => {
+            return (
+                <div className="item" key={post.id}>
+                    <i className="large middle aligned icon user" />
+                    <div className="content">
+                        <div className="description">
+                            <h1>{post.title}</h1>
+                            <h3>{post.body}</h3>
+                        </div>
+                    </div>
+                </div>
+            );
+        });
+    }
 
     return (
-        <div>
-            Post List
+        
+        <div className="ui relaxed divided list">
+            {renderList()}
         </div>
     );
 };
 
-export default connect(null, { fetchPosts })(PostList);
+const mapStateToProps = state => {
+    return { posts: state.posts };
+}
+
+export default connect(mapStateToProps, { fetchPosts })(PostList);
